@@ -1,9 +1,16 @@
 package com.sensormanager;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import com.BioSensor.SensorConnectionManager;
 
+import android.R.raw;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -32,6 +39,7 @@ public class DataStreamActivity extends Activity {
 	final private static int SCR = 4;
 	final private static int BH_SL = 5;
 	final private static int SHIM_SL = 6;
+	final private static int RAWDATA = 7;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +107,45 @@ public class DataStreamActivity extends Activity {
 				data = (String) msg.obj;
 				Log.i("Data", "SHIM SL:" + data);
 				break;
-
+				
+			case RAWDATA:
+				data = (String) msg.obj;
+				appendLog(data);
+				
 			default:
 				break;
 			};
 		}
 	};
+	
+	public void appendLog(String text)
+	{       
+		File logFile = new File("sdcard/log.txt");
+		if (!logFile.exists())
+		{
+			try
+			{
+				logFile.createNewFile();
+			} 
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		try
+		{
+			//BufferedWriter for performance, true to set append to file flag
+			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
+			buf.append(text);
+			buf.newLine();
+			buf.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}  
+
 	
 	public class BlueToothThread extends Thread{
 
@@ -157,32 +198,33 @@ public class DataStreamActivity extends Activity {
 			while(stillContinue){
 				try {
 					sleep(100);
-					if(GlobalConstant.isCheck_BH_HR) {
-						Message msg_HR = new Message();
-						msg_HR.what = HR;
-						msg_HR.obj = (Object) String.valueOf(scm.getRawData("BioHarness", "Heart Rate"));
-						dataHandler.sendMessage(msg_HR);
-					}
+					Vector<String> rawData = new Vector<String>();
+					
+					String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+					rawData.add(currentDateTimeString);
 
 					if(GlobalConstant.isCheck_BH_BR) {
 						Message msg_BR = new Message();
 						msg_BR.what = BR;
 						msg_BR.obj = (Object) String.valueOf(scm.getRawData("BioHarness", "Respiration Rate"));
+						rawData.add((String) msg_BR.obj);
 						dataHandler.sendMessage(msg_BR);
 					}
 
+					if(GlobalConstant.isCheck_BH_HR) {
+						Message msg_HR = new Message();
+						msg_HR.what = HR;
+						msg_HR.obj = (Object) String.valueOf(scm.getRawData("BioHarness", "Heart Rate"));
+						rawData.add((String) msg_HR.obj);
+						dataHandler.sendMessage(msg_HR);
+					}
+					
 					if(GlobalConstant.isCheck_BH_HRV) {
 						Message msg_HRV = new Message();
 						msg_HRV.what = HRV;
 						msg_HRV.obj = (Object) String.valueOf(scm.getRawData("BioHarness", "HRV"));
 						dataHandler.sendMessage(msg_HRV);
-					}
-
-					if(GlobalConstant.isCheck_Shim_SCR) {
-						Message msg_SCR = new Message();
-						msg_SCR.what = SCR;
-						msg_SCR.obj = (Object) String.valueOf(scm.getRawData("Shimmer", "SCR"));
-						dataHandler.sendMessage(msg_SCR);
+						rawData.add((String) msg_HRV.obj);
 					}
 
 					if(GlobalConstant.isCheck_Shim_SCL) {
@@ -190,7 +232,26 @@ public class DataStreamActivity extends Activity {
 						msg_SCL.what = SCL;
 						msg_SCL.obj = (Object) String.valueOf(scm.getRawData("Shimmer", "SCL"));
 						dataHandler.sendMessage(msg_SCL);
+						rawData.add((String) msg_SCL.obj);
 					}
+
+					if(GlobalConstant.isCheck_Shim_SCR) {
+						Message msg_SCR = new Message();
+						msg_SCR.what = SCR;
+						msg_SCR.obj = (Object) String.valueOf(scm.getRawData("Shimmer", "SCR"));
+						dataHandler.sendMessage(msg_SCR);
+						rawData.add((String) msg_SCR.obj);
+					}
+					
+					Message msgRawData = new Message();
+					msgRawData.what = RAWDATA;
+					String rawValue = new String();
+					for(String content: rawData) {
+						rawValue += content + ",";
+					}
+					msgRawData.obj = rawValue;
+					dataHandler.sendMessage(msgRawData);
+					
 					if(GlobalConstant.isCheck_Shim_SCL || GlobalConstant.isCheck_Shim_SCR) {
 						Message msg_SHIM_SL = new Message();
 						
@@ -222,6 +283,7 @@ public class DataStreamActivity extends Activity {
 						msg_BH_SL.obj = (Object) String.valueOf(scm.getStressLevel("BioHarness", data));
 						dataHandler.sendMessage(msg_BH_SL); 
 					}
+					
 				} catch (IllegalArgumentException e) {
 					Log.d("Exception", e.getMessage());
 				} catch (InterruptedException e) {
