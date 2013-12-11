@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/options_screen" >
+    
+    <Button
+        android:id="@+id/btBackToStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/background_dark"
+        android:text="Back to Menu"
+        android:textColor="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:baselineAligned="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="40dp"
+        android:paddingTop="50dp" >
+
+        <Button
+            android:id="@+id/musicButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:background="@drawable/music_on" />
+
+        <Button
+            android:id="@+id/soundButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sound_on" />
+
+        <Button
+            android:id="@+id/sensorButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sensors_button" />
+
+        <Button
+            android:id="@+id/btToThreshold"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/thresholds_button"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

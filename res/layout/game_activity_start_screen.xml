@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background = "@drawable/title_screen"
+	>
+	<!-- 
+     -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="220dp"
+        android:baselineAligned="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp" >
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:background="@drawable/start_button" />
+
+        <Button
+            android:id="@+id/optionsButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/options_button" />
+
+<!--  
+        <Button
+            android:id="@+id/statsButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/stats_button" />
+
+        <Button
+            android:id="@+id/achieveButton"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/achieve_button" />
+-->
+    </LinearLayout>
+
+</RelativeLayout>
