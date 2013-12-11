@@ -4,8 +4,6 @@
     android:layout_height="fill_parent"
     android:background = "@drawable/title_screen"
 	>
-	<!-- 
-     -->
 
     <LinearLayout
         android:id="@+id/linearLayout1"

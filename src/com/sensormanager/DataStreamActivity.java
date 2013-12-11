@@ -23,6 +23,7 @@ public class DataStreamActivity extends Activity {
 	private TextView textviewbhhrv;
 	private TextView textviewshimscl;
 	private TextView textviewshimscr;
+	private BlueToothThread btthread;
 	
 	final private static int HRV = 0;
 	final private static int BR = 1;
@@ -37,11 +38,21 @@ public class DataStreamActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		btthread = new BlueToothThread();
+		btthread.start();
+		
 		textviewbhbr = (TextView) findViewById(R.id.tvbh_br);
 		textviewbhhr = (TextView) findViewById(R.id.tvbh_hr);
 		textviewbhhrv = (TextView) findViewById(R.id.tvbh_hrv);
 		textviewshimscl = (TextView) findViewById(R.id.tvshim_scl);
 		textviewshimscr = (TextView) findViewById(R.id.tvshim_scr);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		btthread.stopThread();
+		
 	}
 	
 	private Handler dataHandler = new Handler(Looper.getMainLooper()) {
