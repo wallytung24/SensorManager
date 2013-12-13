@@ -158,10 +158,10 @@ public class DataStreamActivity extends Activity {
 		public BlueToothThread() {
 			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-			while (!mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			}
+//			while (!mBluetoothAdapter.isEnabled()) {
+//				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//				startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+//			}
 
 			scm = new SensorConnectionManager(mBluetoothAdapter);
 			stillContinue = true;

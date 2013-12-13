@@ -61,7 +61,7 @@ public class ShimmerFramework implements ISensor{
 		if (pairedDevices.size() > 0) {
 			// Loop through paired devices
 			for(BluetoothDevice device : pairedDevices) {
-				if(device.getName().startsWith("RN42")) {
+				if(device.getName().startsWith("Shimmer")) {
 					mDevice = device;
 					Log.d("Debug", mDevice.getName());
 					break;
