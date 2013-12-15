@@ -8,18 +8,19 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Vector;
 
-import com.BioSensor.SensorConnectionManager;
-
-import android.R.raw;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.BioSensor.SensorConnectionManager;
 
 public class DataStreamActivity extends Activity {
 	
@@ -31,6 +32,7 @@ public class DataStreamActivity extends Activity {
 	private TextView textviewshimscl;
 	private TextView textviewshimscr;
 	private BlueToothThread btthread;
+	private Button btFinish;
 	
 	final private static int HRV = 0;
 	final private static int BR = 1;
@@ -54,6 +56,17 @@ public class DataStreamActivity extends Activity {
 		textviewbhhrv = (TextView) findViewById(R.id.tvbh_hrv);
 		textviewshimscl = (TextView) findViewById(R.id.tvshim_scl);
 		textviewshimscr = (TextView) findViewById(R.id.tvshim_scr);
+		
+		btFinish = (Button) findViewById(R.id.btFinish);
+		btFinish.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				btthread.stopThread();
+				finish();
+			}
+		});
+		
 	}
 	
 	@Override
